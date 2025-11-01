@@ -66,7 +66,7 @@ nvidia-quantum-hybrid/
 
 ```json
 {
-  "pipeline_version": "0.2-nvidia-quantum-hybrid",
+  "pipeline_version": "0.3-nvidia-quantum-hybrid",
   "policy_used": "small",
   "policy_tag": "ok",
   "features_meta": {
@@ -76,7 +76,10 @@ nvidia-quantum-hybrid/
   },
   "quantum_called": true,
   "quantum_backend": "qiskit_sim",
-  "quantum_confidence": 0.47,
+  "quantum_confidence": 0.462,
+  "noise_level": 0.03,
+  "reason": "ok",
+  "explain": "policy=small, mean=1.012, theta=0.222",
   "latency_s": 0.152
 }
 ```
@@ -93,11 +96,11 @@ nvidia-quantum-hybrid/
 
 If you use or adapt this repository, please cite
 
-> Kaczmarek, S. (2025). *NVIDIA Quantum Hybrid*. Zenodo. https://doi.org/10.5281/zenodo.17502919
+> Sylvester Kaczmarek (2025). *NVIDIA Quantum Hybrid* (Version 0.2). Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
 
 Badge
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17502919.svg)](https://doi.org/10.5281/zenodo.17502919)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
 
 ## License
 
