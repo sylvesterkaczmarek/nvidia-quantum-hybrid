@@ -1,3 +1,10 @@
+"""
+NVIDIA Quantum Hybrid — secure AI x quantum demo
+Author: Sylvester Kaczmarek
+DOI: 10.5281/zenodo.17502919
+License: MIT
+"""
+
 import time
 import json
 import numpy as np
@@ -6,7 +13,7 @@ from qiskit import QuantumCircuit
 from qiskit_aer import AerSimulator
 
 
-PIPELINE_VERSION = "0.2-nvidia-quantum-hybrid"
+PIPELINE_VERSION = "0.3-nvidia-quantum-hybrid"
 
 
 def classical_feature_stage(data):
@@ -72,6 +79,14 @@ def run_quantum_qiskit(theta):
     return prob_1
 
 
+def simulate_noise(prob_1, noise_level=0.03):
+    """
+    Tiny noise model to imitate imperfect hardware.
+    """
+    noisy = prob_1 * (1 - noise_level) + (1 - prob_1) * noise_level
+    return round(noisy, 4)
+
+
 def run_quantum(theta, backend="qiskit_sim"):
     """
     Switchable quantum backend.
@@ -92,7 +107,7 @@ def log_event(payload):
     print("[LOG]", json.dumps(payload))
 
 
-def run_secure_hybrid(sample, policy_name="small", backend="qiskit_sim"):
+def run_secure_hybrid(sample, policy_name="small", backend="qiskit_sim", write_file=False):
     """
     Full classical -> policy -> quantum -> classical loop.
     """
@@ -117,40 +132,50 @@ def run_secure_hybrid(sample, policy_name="small", backend="qiskit_sim"):
             {
                 "quantum_called": False,
                 "reason": "blocked_by_policy",
+                "explain": f"policy={policy_name}, status={tag}",
             }
         )
         result["latency_s"] = round(time.time() - t0, 4)
         log_event(result)
+        if write_file:
+            with open("hybrid_output_blocked.json", "w") as f:
+                json.dump(result, f, indent=2)
         return result
 
     # 3. quantum step allowed
     theta = float(np.clip(np.mean(feats) * np.pi, -np.pi, np.pi))
     prob_1, used_backend = run_quantum(theta, backend=backend)
+    prob_1_noisy = simulate_noise(prob_1)
 
     # 4. final
     result.update(
         {
             "quantum_called": True,
             "quantum_backend": used_backend,
-            "quantum_confidence": prob_1,
+            "quantum_confidence": prob_1_noisy,
+            "noise_level": 0.03,
             "reason": "ok",
+            "explain": f"policy={policy_name}, mean={feat_meta['mean']:.3f}, theta={theta:.3f}",
         }
     )
     result["latency_s"] = round(time.time() - t0, 4)
 
     log_event(result)
+    if write_file:
+        with open("hybrid_output.json", "w") as f:
+            json.dump(result, f, indent=2)
     return result
 
 
 if __name__ == "__main__":
     # sample expected to pass
     sample_ok = [1.0, 1.02, 1.05, 0.98, 1.01]
-    out_ok = run_secure_hybrid(sample_ok, policy_name="small")
+    out_ok = run_secure_hybrid(sample_ok, policy_name="small", write_file=True)
     print("=== OK sample result ===")
     print(json.dumps(out_ok, indent=2))
 
     # sample expected to fail
     sample_bad = [1.0, 4.5, 1.05, 0.98, 1.01]
-    out_bad = run_secure_hybrid(sample_bad, policy_name="strict")
+    out_bad = run_secure_hybrid(sample_bad, policy_name="strict", write_file=True)
     print("=== BAD sample result ===")
     print(json.dumps(out_bad, indent=2))
