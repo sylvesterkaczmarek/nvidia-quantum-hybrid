@@ -14,6 +14,12 @@ https://nvidianews.nvidia.com/news/nvidia-nvqlink-quantum-gpu-computing
 
 This is a simple reference that connects current hybrid quantum–GPU news with secure and trustworthy AI concepts.
 
+## Why this is useful
+
+- Shows how to put a safety/policy check in front of a quantum call, which is what you want in secure AI or space/defence contexts.
+- Produces JSON that can be logged, audited or sent to an MLOps/SOC pipeline, so it is easy to demo to non-quantum teams.
+- Can be swapped from a simulator to CUDA-Q or a partner QPU without changing the classical logic, so it is future-ready.
+
 ## Features
 
 - classical → policy → quantum → classical loop
