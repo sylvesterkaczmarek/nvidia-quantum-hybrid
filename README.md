@@ -1,4 +1,5 @@
 # NVIDIA Quantum Hybrid
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 This repository shows a small classical–quantum–classical workflow with an explicit safety gate. It is written to match the current NVIDIA work on quantum to GPU hybrid computing and to show how AI safety and AI security logic can control access to quantum routines.
 
