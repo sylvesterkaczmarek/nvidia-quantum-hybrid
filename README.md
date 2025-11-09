@@ -110,6 +110,6 @@ Badge
 
 ## License
 
-MIT License
+MIT. See [LICENSE](LICENSE).
 
-© 2025 Sylvester Kaczmarek
+© Sylvester Kaczmarek · https://www.sylvesterkaczmarek.com
