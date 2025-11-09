@@ -4,9 +4,10 @@ message: "If you use this repository, please cite it."
 authors:
   - family-names: Kaczmarek
     given-names: Sylvester
+    orcid: https://orcid.org/0000-0002-0393-228X
 doi: 10.5281/zenodo.17502919
 date-released: 2025-11-01
-url: https://github.com/SylvesterKaczmarek/nvidia-quantum-hybrid
+url: https://github.com/sylvesterkaczmarek/nvidia-quantum-hybrid
 license: MIT
 type: software
 preferred-citation:
@@ -15,5 +16,6 @@ preferred-citation:
   authors:
     - family-names: Kaczmarek
       given-names: Sylvester
+      orcid: https://orcid.org/0000-0002-0393-228X
   year: 2025
   doi: 10.5281/zenodo.17502919
